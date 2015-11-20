@@ -74,15 +74,7 @@ void setup () {
   for(int j=0; j<numFlame; j++){
    flame[j]=loadImage("img/flame"+(j+1)+".png");
   }
-  //crash initial
-  crash[0]=false;
-  crash[1]=false;
-  crash[2]=false;
-  crash[3]=false;
-  crash[4]=false;
-  crash[5]=false;
-  crash[6]=false;
-  crash[7]=false;
+ 
   frameRate(60);
 }
 
@@ -145,7 +137,10 @@ void draw() {
     blood=194.0;
     }
     
-
+    
+    
+    
+    
     switch(enemyMode){
        
     case line:
@@ -157,10 +152,14 @@ void draw() {
       
     enemyX[i]=enemyX[0]-80*i;
     enemyY[i]=enemyY[0];
+    
     if(fighterX<enemyX[i]+61&&fighterX+51>enemyX[i]&&fighterY+51>enemyY[i]&&fighterY<enemyY[i]+61){
-    blood-=38.8;
+    if(crash[i-1]==false){
     crash[i-1]=true;
-  
+    blood-=38.8;
+    }
+    
+    
     flameX=enemyX[i];
     flameY=enemyY[i];
     
@@ -173,10 +172,10 @@ void draw() {
    if(currentFlame>5){
    currentFlame =0;
    }
-   enemyX[i]=1000;
-   enemyY[i]=1000;
+   
  
     }
+    
     if(crash[i-1]==false){
     image(img2,enemyX[i],enemyY[i]);
       }
@@ -223,8 +222,10 @@ void draw() {
     
     
     if(fighterX<enemyX[i]+61&&fighterX+51>enemyX[i]&&fighterY+51>enemyY[i]&&fighterY<enemyY[i]+61){
-    blood-=38.8;
+    if(crash[i-1]==false){
     crash[i-1]=true;
+    blood-=38.8;
+    }
     flameX=enemyX[i];
     flameY=enemyY[i];
     enemyX[i]=1000;
@@ -302,8 +303,10 @@ void draw() {
     
     
     if(fighterX<enemyDiamondX[i]+61&&fighterX+51>enemyDiamondX[i]&&fighterY+51>enemyDiamondY[i]&&fighterY<enemyDiamondY[i]+61){
-    blood-=38.8;
+    if(crash[i-1]==false){
     crash[i-1]=true;
+    blood-=38.8;
+    }
     flameX=enemyDiamondX[i];
     flameY=enemyDiamondY[i];
     
@@ -368,6 +371,15 @@ void draw() {
      case GAME_OVER:
      gameState=GAME_RUN;
      enemyMode=line;
+     //crash initial
+    crash[0]=false;
+    crash[1]=false;
+    crash[2]=false;
+    crash[3]=false;
+    crash[4]=false;
+    crash[5]=false;
+    crash[6]=false;
+    crash[7]=false;
      treasureX=floor(random(0,599));
      treasureY=floor(random(0,439));
      fighterX=588;
@@ -383,7 +395,7 @@ void draw() {
   }//switch gameState end
 
    //game over
-   if((int)blood<=0){
+   if(blood<=0.0){
    switch(gameState){
    case GAME_RUN:
    gameState=GAME_OVER;
