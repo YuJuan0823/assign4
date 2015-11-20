@@ -66,14 +66,23 @@ void setup () {
   gameState=GAME_START;
   enemyMode=line;
   
- 
+  //enemy initail location
   enemyY[0]=random(0,419);
   enemyX[0]=-80;
-  
+  //flame
   currentFlame=0;
   for(int j=0; j<numFlame; j++){
    flame[j]=loadImage("img/flame"+(j+1)+".png");
   }
+  //crash initial
+  crash[0]=false;
+  crash[1]=false;
+  crash[2]=false;
+  crash[3]=false;
+  crash[4]=false;
+  crash[5]=false;
+  crash[6]=false;
+  crash[7]=false;
   frameRate(60);
 }
 
@@ -140,14 +149,17 @@ void draw() {
     switch(enemyMode){
        
     case line:
+    
     enemyX[0]+=speed;
+    
+    
     for(int i=1; i<numEnemyX; i++){  
       
     enemyX[i]=enemyX[0]-80*i;
     enemyY[i]=enemyY[0];
-    if(sq(enemyX[i]+30.5-fighterX+25.5)+sq(enemyY[i]+30.5-fighterY+25.5)<sq(30.5+25.5)){
-    //blood-=38.8;
-    
+    if(fighterX<enemyX[i]+61&&fighterX+51>enemyX[i]&&fighterY+51>enemyY[i]&&fighterY<enemyY[i]+61){
+    blood-=38.8;
+    crash[i-1]=true;
   
     flameX=enemyX[i];
     flameY=enemyY[i];
@@ -165,7 +177,7 @@ void draw() {
    enemyY[i]=1000;
  
     }
-    if(enemyX[i]<width){
+    if(crash[i-1]==false){
     image(img2,enemyX[i],enemyY[i]);
       }
     
@@ -184,6 +196,14 @@ void draw() {
     switch(enemyMode){
     case line:
     enemyMode=slash;
+    crash[0]=false;
+    crash[1]=false;
+    crash[2]=false;
+    crash[3]=false;
+    crash[4]=false;
+    crash[5]=false;
+    crash[6]=false;
+    crash[7]=false;
     break;
     }
   
@@ -202,8 +222,9 @@ void draw() {
     
     
     
-    if(sq(enemyX[i]+30.5-fighterX+25.5)+sq(enemyY[i]+30.5-fighterY+25.5)<sq(30.5+25.5)){
-    //blood-=38.8;
+    if(fighterX<enemyX[i]+61&&fighterX+51>enemyX[i]&&fighterY+51>enemyY[i]&&fighterY<enemyY[i]+61){
+    blood-=38.8;
+    crash[i-1]=true;
     flameX=enemyX[i];
     flameY=enemyY[i];
     enemyX[i]=1000;
@@ -219,9 +240,10 @@ void draw() {
    }
    
    }//explode
-   
+   if(crash[i-1]==false){
    image(img2,enemyX[i],enemyY[i]); 
-    }
+   }  
+  }
     
     if(enemyX[0]-80*6>=width){
     enemyDiamondX[0]=-80;
@@ -230,6 +252,14 @@ void draw() {
     switch(enemyMode){
     case slash:
     enemyMode=diamond;
+    crash[0]=false;
+    crash[1]=false;
+    crash[2]=false;
+    crash[3]=false;
+    crash[4]=false;
+    crash[5]=false;
+    crash[6]=false;
+    crash[7]=false;
     break;
     }
     
@@ -249,31 +279,31 @@ void draw() {
     enemyDiamondX[1]=enemyDiamondX[0];
     enemyDiamondX[8]=enemyDiamondX[0]-61*4;
     enemyDiamondY[i]=enemyY[0];
-    image(img2,enemyDiamondX[i],enemyDiamondY[i]);
+   
     }else if(i==2||i==6){
     enemyDiamondX[2]=enemyDiamondX[0]-61;
     enemyDiamondX[6]=enemyDiamondX[0]-61*3;
     enemyDiamondY[i]=enemyY[0]-61;
-    image(img2,enemyDiamondX[i],enemyDiamondY[i]);
+  
     }else if(i==3||i==7){
     enemyDiamondX[3]=enemyDiamondX[0]-61;
     enemyDiamondX[7]=enemyDiamondX[0]-61*3;
     enemyDiamondY[i]=enemyY[0]+61;
-    image(img2,enemyDiamondX[i],enemyDiamondY[i]);
+   
     }else if(i==4){
     enemyDiamondX[4]=enemyDiamondX[0]-61*2;
     enemyDiamondY[i]=enemyY[0]-122;
-    image(img2,enemyDiamondX[i],enemyDiamondY[i]);
+
     }else{
     enemyDiamondX[i]=enemyDiamondX[0]-61*2;
     enemyDiamondY[i]=enemyY[0]+122;
-    image(img2,enemyDiamondX[i],enemyDiamondY[i]);
+    
     }
     
     
-    if(sq(enemyDiamondX[i]+30.5-fighterX+25.5)+sq(enemyDiamondY[i]+30.5-fighterY+25.5)<sq(30.5+25.5)){
-    //blood-=38.8;
-    
+    if(fighterX<enemyDiamondX[i]+61&&fighterX+51>enemyDiamondX[i]&&fighterY+51>enemyDiamondY[i]&&fighterY<enemyDiamondY[i]+61){
+    blood-=38.8;
+    crash[i-1]=true;
     flameX=enemyDiamondX[i];
     flameY=enemyDiamondY[i];
     
@@ -288,9 +318,12 @@ void draw() {
    currentFlame =0;
    }
     }
+    if(crash[i-1]==false){
+    image(img2,enemyDiamondX[i],enemyDiamondY[i]);
+    }
     }
     
- //explode
+
      
        
     
@@ -303,6 +336,14 @@ void draw() {
     switch(enemyMode){
     case diamond:
     enemyMode=line;
+    crash[0]=false;
+    crash[1]=false;
+    crash[2]=false;
+    crash[3]=false;
+    crash[4]=false;
+    crash[5]=false;
+    crash[6]=false;
+    crash[7]=false;
     break;
     }
     
