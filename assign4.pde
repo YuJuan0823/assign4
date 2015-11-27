@@ -87,7 +87,7 @@ void setup () {
    flame[j]=loadImage("img/flame"+(j+1)+".png");
   }
  
-  frameRate(40);
+  frameRate(60);
   
  
   
