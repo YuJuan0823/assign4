@@ -193,7 +193,6 @@ void draw() {
     if(crash[i-1]==false){
     if(fighterX<enemyX[i]+61&&fighterX+51>enemyX[i]&&fighterY+51>enemyY[i]&&fighterY<enemyY[i]+61){
     
-    crash[i-1]=true;
     blood-=38.8;
     flameX=enemyX[i];
     flameY=enemyY[i];
@@ -207,6 +206,7 @@ void draw() {
    if(currentFlame>5){
    currentFlame =0;
    }
+   crash[i-1]=true;
     }
     
     
@@ -266,7 +266,7 @@ void draw() {
     if(crash[i-1]==false){
     if(fighterX<enemyX[i]+61&&fighterX+51>enemyX[i]&&fighterY+51>enemyY[i]&&fighterY<enemyY[i]+61){
     
-    crash[i-1]=true;
+    
     blood-=38.8;
     
     flameX=enemyX[i];
@@ -282,6 +282,7 @@ void draw() {
    if(currentFlame>5){
    currentFlame =0;
    }
+   crash[i-1]=true;
     }
    }//explode
    if(crash[i-1]==false){
@@ -347,7 +348,7 @@ void draw() {
     if(crash[i-1]==false){
     if(fighterX<enemyDiamondX[i]+61&&fighterX+51>enemyDiamondX[i]&&fighterY+51>enemyDiamondY[i]&&fighterY<enemyDiamondY[i]+61){
     
-    crash[i-1]=true;
+    
     blood-=38.8;
     
     flameX=enemyDiamondX[i];
@@ -363,6 +364,7 @@ void draw() {
    if(currentFlame>5){
    currentFlame =0;
    }
+   crash[i-1]=true;
     }
     }
     if(crash[i-1]==false){
