@@ -159,7 +159,7 @@ void draw() {
       for(int i=0; i<numFire; i++){
     shootX[i]-=speed;
     image(shoot,shootX[i],shootY[i]);
-    println(shootCount);
+   
 
     }
     if(shootX[0]+31<0.0){
