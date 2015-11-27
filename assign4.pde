@@ -1,6 +1,7 @@
 float treasureX,treasureY;
 float fighterX,fighterY;
 
+
 int numCrash=8;
 boolean crash[]=new boolean [numCrash];
 
@@ -19,6 +20,16 @@ float enemyDiamondY[]=new float[numDiamondEnemyY];
 // flame
 float flameX;
 float flameY;
+//shoot
+
+PImage shoot;
+int numFire=5;
+
+float shootX[]=new float [numFire];
+float shootY[]=new float [numFire];
+int shootCount=-1;
+int fire=0;
+
 float speed=6;
 int bgx1, bgx2;
 int gameState;
@@ -56,6 +67,7 @@ void setup () {
   img4=loadImage("img/treasure.png");
   img1=loadImage("img/hp.png");
   img2=loadImage("img/enemy.png");
+  shoot=loadImage("img/shoot.png");
   //treasure locate
   treasureX=floor(random(0,599));
   treasureY=floor(random(0,439));
@@ -75,7 +87,10 @@ void setup () {
    flame[j]=loadImage("img/flame"+(j+1)+".png");
   }
  
-  frameRate(60);
+  frameRate(40);
+  
+ 
+  
 }
 
 void draw() {
@@ -136,11 +151,34 @@ void draw() {
     if (blood>=194.0){
     blood=194.0;
     }
+  
+   //fire
+
+    
+    if(shootCount>=-1){
+      for(int i=0; i<numFire; i++){
+    shootX[i]-=speed;
+    image(shoot,shootX[i],shootY[i]);
+    println(shootCount);
+
+    }
+    if(shootX[0]+31<0.0){
+    shootCount--;
+    
+    }
+    }
+    
+    if(shootCount<-1){
+    shootCount=-1;
+    }
+    
+    if(shootCount>4){
+    shootCount=4;
+    }
     
     
-    
-    
-    
+  
+   
     switch(enemyMode){
        
     case line:
@@ -152,14 +190,11 @@ void draw() {
       
     enemyX[i]=enemyX[0]-80*i;
     enemyY[i]=enemyY[0];
-    
-    if(fighterX<enemyX[i]+61&&fighterX+51>enemyX[i]&&fighterY+51>enemyY[i]&&fighterY<enemyY[i]+61){
     if(crash[i-1]==false){
+    if(fighterX<enemyX[i]+61&&fighterX+51>enemyX[i]&&fighterY+51>enemyY[i]&&fighterY<enemyY[i]+61){
+    
     crash[i-1]=true;
     blood-=38.8;
-    }
-    
-    
     flameX=enemyX[i];
     flameY=enemyY[i];
     
@@ -172,9 +207,14 @@ void draw() {
    if(currentFlame>5){
    currentFlame =0;
    }
+    }
+    
+    
+    
    
  
     }
+   
     
     if(crash[i-1]==false){
     image(img2,enemyX[i],enemyY[i]);
@@ -182,9 +222,12 @@ void draw() {
     
     
  //explode
-   
+ 
  
     }//for end
+    
+    
+    
     
     
     
@@ -220,12 +263,12 @@ void draw() {
     enemyY[i]=enemyY[0]+61*(i-1);
     
     
-    
-    if(fighterX<enemyX[i]+61&&fighterX+51>enemyX[i]&&fighterY+51>enemyY[i]&&fighterY<enemyY[i]+61){
     if(crash[i-1]==false){
+    if(fighterX<enemyX[i]+61&&fighterX+51>enemyX[i]&&fighterY+51>enemyY[i]&&fighterY<enemyY[i]+61){
+    
     crash[i-1]=true;
     blood-=38.8;
-    }
+    
     flameX=enemyX[i];
     flameY=enemyY[i];
     enemyX[i]=1000;
@@ -239,7 +282,7 @@ void draw() {
    if(currentFlame>5){
    currentFlame =0;
    }
-   
+    }
    }//explode
    if(crash[i-1]==false){
    image(img2,enemyX[i],enemyY[i]); 
@@ -301,12 +344,12 @@ void draw() {
     
     }
     
-    
-    if(fighterX<enemyDiamondX[i]+61&&fighterX+51>enemyDiamondX[i]&&fighterY+51>enemyDiamondY[i]&&fighterY<enemyDiamondY[i]+61){
     if(crash[i-1]==false){
+    if(fighterX<enemyDiamondX[i]+61&&fighterX+51>enemyDiamondX[i]&&fighterY+51>enemyDiamondY[i]&&fighterY<enemyDiamondY[i]+61){
+    
     crash[i-1]=true;
     blood-=38.8;
-    }
+    
     flameX=enemyDiamondX[i];
     flameY=enemyDiamondY[i];
     
@@ -320,6 +363,7 @@ void draw() {
    if(currentFlame>5){
    currentFlame =0;
    }
+    }
     }
     if(crash[i-1]==false){
     image(img2,enemyDiamondX[i],enemyDiamondY[i]);
@@ -355,7 +399,10 @@ void draw() {
     break;
     }// switch enemyMode end
     
+   
     
+   
+  
     
     
     
@@ -380,6 +427,8 @@ void draw() {
     crash[5]=false;
     crash[6]=false;
     crash[7]=false;
+    
+    shootCount=0;
      treasureX=floor(random(0,599));
      treasureY=floor(random(0,439));
      fighterX=588;
@@ -421,11 +470,17 @@ void draw() {
    
    
    
+     
+     
+    
+     
+   
+   
   }//draw end
  
     
 
- 
+
 
 void keyPressed(){
   if(key==CODED){
@@ -444,6 +499,19 @@ void keyPressed(){
     break;
   }
   }
+  
+  if(keyCode==' '&&shootCount<4){
+  
+  shootCount++;
+  if(shootCount>=0){
+  shootX[shootCount]=fighterX;
+  shootY[shootCount]=fighterY+12;
+  }
+  }
+ 
+ 
+  
+
 
 }
 void keyReleased(){
@@ -463,4 +531,7 @@ if(key==CODED){
     break;
   }
   }
+  
+ 
+  
 }
